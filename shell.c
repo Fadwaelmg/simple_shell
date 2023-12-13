@@ -77,10 +77,12 @@ int main(void) {
         printf("#cisfun$ ");
         fgets(command, MAX_COMMAND_LENGTH, stdin);
 
-        if (strcmp(command, "exit\n") == 0) {
-            printf("Exiting the shell. Goodbye!\n");
+        if (strcmp(command, "exit\n") == 0) 
+	{
             break;
-        } else if (strcmp(command, "env\n") == 0) {
+        }
+       	else if (strcmp(command, "env\n") == 0) 
+	{
             show_environment();
         } else {
             if (strchr(command, ';') || strchr(command, '|') || strchr(command, '<') || strchr(command, '>')) {
