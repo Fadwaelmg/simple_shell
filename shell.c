@@ -1,20 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
-#define MAX_PATH_LENGTH 1024
-#define MAX_COMMAND_LENGTH 1024
-
-/**
-* show_environment -Displays the environment variables to the standard output.
-* External Variable: 'environ' is declared as an external variable
-* meaning it is defined in another source file
-* this function assumes its existence for accessing the environment variables
-*/
-extern char **environ;
-
+#include "shell.h"
 void show_environment(void)
 {
 char **env = environ;
