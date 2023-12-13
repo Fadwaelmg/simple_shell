@@ -24,17 +24,17 @@ int runCmd(const char *cmd) {
     char *token;
     char *token_cmd;
     int i = 0;
-    
+
     strncpy(path_copy, path, MAX_PATH_LENGTH);
     token_cmd = strtok_r((char *)cmd, " ", &saveptr1);
-    
+
     while (token_cmd != NULL) {
         args[i++] = token_cmd;
         token_cmd = strtok_r(NULL, " ", &saveptr1);
     }
     args[i] = NULL;
     token = strtok_r(path_copy, ":", &saveptr2);
-    
+
     do {
         snprintf(full_cmd, sizeof(full_cmd), "%s/%s", token, args[0]);
         if (commandExists(token, args[0])) {
@@ -44,7 +44,7 @@ int runCmd(const char *cmd) {
                 return (1);
             }
             if (pid == 0) {
-                if (execvp(full_cmd, args) == -1) {
+                if (execve(full_cmd, args, NULL) == -1) {
                     perror(full_cmd);
                     exit(EXIT_FAILURE);
                 }
@@ -64,7 +64,7 @@ int runCmd(const char *cmd) {
             }
         }
     } while ((token = strtok_r(NULL, ":", &saveptr2)) != NULL);
-    
+
     printf("'%s' not found\n", args[0]);
     return (0);
 }
@@ -72,11 +72,11 @@ int runCmd(const char *cmd) {
 int main(void) {
     char *command = (char *)malloc(MAX_COMMAND_LENGTH * sizeof(char));
     char *space_ptr;
-    
+
     do {
         printf("#cisfun$ ");
         fgets(command, MAX_COMMAND_LENGTH, stdin);
-        
+
         if (strcmp(command, "exit\n") == 0) {
             printf("Exiting the shell. Goodbye!\n");
             break;
@@ -87,7 +87,7 @@ int main(void) {
                 printf("Error: Command contains special characters or advanced features.\n");
                 continue;
             }
-            
+
             space_ptr = strchr(command, ' ');
             if (space_ptr && *(space_ptr + 1) != '-') {
                 printf("Error: Command should contain only one word.\n");
